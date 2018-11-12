@@ -4,32 +4,28 @@
   tasks:
   - name: Creating user and Expire password!
     user:
-       name: "{{ item }}"
+       name: "{{ item.name }}"
        password: "{{ password | password_hash('sha512') }}"
        state: present
     with_items:
-         - "{{ vm }}"
-         - "{{ dev }}"
+         - "{{ users }}"
 
   - name: Expire password!
-    command: chage -d 0 {{ item }}
+    command: chage -d 0 {{ item.name }}
     with_items:
-         - "{{ vm }}"
-         - "{{ dev }}"
+         - "{{ users }}"
 
   - name: Create group!
-    command: groupadd "{{ item }}"
+    command: groupadd "{{ item.group }}"
     with_items:
-         - "{{ vm.kbzgateway }}"
-         - "{{ dev.kbzgateway }}"
+         - "{{ users }}"
 
   - name: Append user to group
     user:
-       name: "{{ item }}"
+       name: "{{ item.name }}"
        shell: /bin/bash
-       groups: it.kbzgateway
+       groups: "{{ item.group }}"
        append: yes
     with_items:
-         - "{{ vm.kbzgateway }}"
-         - "{{ dev.kbzgateway }}"
+         - "{{ users }}"
 ...
