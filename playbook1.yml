@@ -32,12 +32,7 @@
     command: groupadd "{{ item }}"
     with_items:
          - "{{ group1 }}"
-         
-  - name: Create group2!
-    command: groupadd "{{ item }}"
-    with_items:
-         - "{{ group2 }}"
-         
+         - "{{ group2 }}"        
 
   - name: Append user to group1
     user:
