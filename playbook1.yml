@@ -12,7 +12,7 @@
          - "{{ dev }}"
 
   - name: Expire password!
-    command: "chage -d 0 {{ item }}"
+    command: chage -d 0 {{ item }}
     with_items:
          - "{{ vm }}"
          - "{{ dev }}"
