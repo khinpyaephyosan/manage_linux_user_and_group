@@ -1,0 +1,36 @@
+---
+- name: Create users on the Linux!
+  hosts: all
+  tasks:
+  - name: Creating user!
+    user:
+       name: "{{ item }}"
+       password: "123456 | password_hash('sha512')"
+    with_items:
+         - "{{ vm }}"
+         - "{{ dev }}"
+
+  - name: Expire password!
+    chage:
+        user: "{{ item }}"
+        sp_lstchg: 0
+    with_items:
+         - "{{ vm }}"
+         - "{{ dev }}"
+
+  - name: Create group!
+    command: groupadd "{{ item }}"
+    with_items:
+         - "{{ vm.kbzgateway }}"
+         - "{{ dev.kbzgateway }}"
+
+  - name: Append user to group
+    user:
+       name: "{{ item }}"
+       shell: /bin/bash
+       groups: it.kbzgateway
+       append: yes
+    with_items:
+         - "{{ vm.kbzgateway }}"
+         - "{{ dev.kbzgateway }}"
+...
