@@ -7,17 +7,17 @@
        name: "{{ item.name }}"
        password: "{{ password | password_hash('sha512') }}"
        state: present
-    with_items:
+    with_subelements:
          - "{{ users }}"
 
   - name: Expire password!
     command: chage -d 0 {{ item.name }}
-    with_items:
+    with_subelements:
          - "{{ users }}"
 
   - name: Create group!
     command: groupadd "{{ item.group }}"
-    with_items:
+    with_subelements:
          - "{{ users }}"
 
   - name: Append user to group
@@ -26,6 +26,6 @@
        shell: /bin/bash
        groups: "{{ item.group }}"
        append: yes
-    with_items:
+    with_subelements:
          - "{{ users }}"
 ...
