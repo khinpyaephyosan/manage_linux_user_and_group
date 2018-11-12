@@ -10,23 +10,23 @@
     with_items:
          - "{{ user1 }}"
          
-  - name: Creating user2!
-    user:
-       name: "{{ item }}"
-       password: "{{ password | password_hash('sha512') }}"
-       state: present
-    with_items:
-         - "{{ user2 }}"
+#  - name: Creating user2!
+#    user:
+#       name: "{{ item }}"
+#       password: "{{ password | password_hash('sha512') }}"
+#       state: present
+#    with_items:
+#         - "{{ user2 }}"
 
-  - name: Expire password1!
+  - name: Expire password for user1!
     command: chage -d 0 {{ item }}
     with_items:
          - "{{ user1 }}"
    
-  - name: Expire password1!
-    command: chage -d 0 {{ item }}
-    with_items:
-         - "{{ user2 }}"
+#  - name: Expire password for user2!
+#    command: chage -d 0 {{ item }}
+#    with_items:
+#         - "{{ user2 }}"
 
   - name: Create group1!
     command: groupadd "{{ item }}"
@@ -43,12 +43,12 @@
     with_items:
          - "{{ user1 }}"
    
-  - name: Append user to group2
-    user:
-       name: "{{ item }}"
-       shell: /bin/bash
-       groups: "{{ group2 }}"
-       append: yes
-    with_items:
-         - "{{ user2 }}"
+#  - name: Append user to group2
+#    user:
+#       name: "{{ item }}"
+#       shell: /bin/bash
+#       groups: "{{ group2 }}"
+#       append: yes
+#    with_items:
+#         - "{{ user2 }}"
 ...
