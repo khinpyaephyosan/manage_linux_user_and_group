@@ -2,25 +2,40 @@
 - name: Create users on the Linux!
   hosts: all
   tasks:
-  - name: Creating user and Expire password!
+  - name: Creating user1!
     user:
        name: "{{ item }}"
        password: "{{ password | password_hash('sha512') }}"
        state: present
     loop:
          - "{{ user1 }}"
+         
+  - name: Creating user2!
+    user:
+       name: "{{ item }}"
+       password: "{{ password | password_hash('sha512') }}"
+       state: present
+    loop:
          - "{{ user2 }}"
 
-  - name: Expire password!
+  - name: Expire password1!
     command: chage -d 0 {{ item }}
     with_subelements:
          - "{{ user1 }}"
+   
+  - name: Expire password1!
+    command: chage -d 0 {{ item }}
+    with_subelements:
          - "{{ user2 }}"
 
-  - name: Create group!
+  - name: Create group1!
     command: groupadd "{{ item }}"
     loop:
          - "{{ group1 }}"
+         
+  - name: Create group2!
+    command: groupadd "{{ item }}"
+    loop:
          - "{{ group2 }}"
          
 
