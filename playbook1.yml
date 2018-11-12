@@ -4,28 +4,33 @@
   tasks:
   - name: Creating user and Expire password!
     user:
-       name: "{{ item.name }}"
+       name: "{{ item }}"
        password: "{{ password | password_hash('sha512') }}"
        state: present
-    with_subelements:
-         - "{{ users }}"
+    loop:
+         - "{{ user1 }}"
+         - "{{ user2 }}"
 
   - name: Expire password!
-    command: chage -d 0 {{ item.name }}
+    command: chage -d 0 {{ item }}
     with_subelements:
-         - "{{ users }}"
+         - "{{ user1 }}"
+         - "{{ user2 }}"
 
   - name: Create group!
-    command: groupadd "{{ item.group }}"
-    with_subelements:
-         - "{{ users }}"
+    command: groupadd "{{ item }}"
+    loop:
+         - "{{ group1 }}"
+         - "{{ group2 }}"
+         
 
   - name: Append user to group
     user:
        name: "{{ item.name }}"
        shell: /bin/bash
-       groups: "{{ item.group }}"
+       groups: "{{ item.groups }}"
        append: yes
-    with_subelements:
-         - "{{ users }}"
+    loop:
+         - "[ name: {{ user1 }} , groups: {{ group1 }} ]"
+         - "[ name: {{ user2 }} , groups: {{ group2 }} ]"
 ...
