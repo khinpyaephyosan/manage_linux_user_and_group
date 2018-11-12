@@ -7,7 +7,7 @@
        name: "{{ item }}"
        password: "{{ password | password_hash('sha512') }}"
        state: present
-       expires: -1
+       expires: 0
     with_items:
          - "{{ vm }}"
          - "{{ dev }}"
