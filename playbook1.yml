@@ -39,13 +39,21 @@
          - "{{ group2 }}"
          
 
-  - name: Append user to group
+  - name: Append user to group1
     user:
-       name: "{{ item.name }}"
+       name: "{{ item }}"
        shell: /bin/bash
-       groups: "{{ item.groups }}"
+       groups: "{{ group1 }}"
        append: yes
     loop:
-         - "[ name: {{ user1 }} , groups: {{ group1 }} ]"
-         - "[ name: {{ user2 }} , groups: {{ group2 }} ]"
+         - "{{ user1 }}"
+   
+  - name: Append user to group2
+    user:
+       name: "{{ item }}"
+       shell: /bin/bash
+       groups: "{{ group2 }}"
+       append: yes
+    loop:
+         - "{{ user2 }}"
 ...
