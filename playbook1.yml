@@ -7,18 +7,15 @@
        name: "{{ item }}"
        password: "{{ password | password_hash('sha512') }}"
        state: present
-       expires: 0
     with_items:
          - "{{ vm }}"
          - "{{ dev }}"
 
-  #- name: Expire password!
-  #  chage:
-  #      user: "{{ item }}"
-  #      sp_lstchg: 0
-  #  with_items:
-  #       - "{{ vm }}"
-  #       - "{{ dev }}"
+  - name: Expire password!
+    command: "chage -d 0 {{ item }}"
+    with_items:
+         - "{{ vm }}"
+         - "{{ dev }}"
 
   - name: Create group!
     command: groupadd "{{ item }}"
