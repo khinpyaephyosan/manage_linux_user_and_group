@@ -45,7 +45,7 @@
        shell: /bin/bash
        groups: "{{ group1 }}"
        append: yes
-    loop:
+    with_items:
          - "{{ user1 }}"
    
   - name: Append user to group2
@@ -54,6 +54,6 @@
        shell: /bin/bash
        groups: "{{ group2 }}"
        append: yes
-    loop:
+    with_items:
          - "{{ user2 }}"
 ...
